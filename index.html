@@ -1906,5 +1906,41 @@
         <p>&copy; 2026 Seven Blue Publicidades. Publicidad digital para operadores habilitados.</p>
         <p>La disponibilidad de campañas de apuestas online depende de la autorización de Meta y de la normativa vigente en cada jurisdicción.</p>
     </footer>
+
+    <script>
+        (() => {
+            const pixelId = '1498382425313232';
+
+            function loadMetaPixel() {
+                if (window.fbq) return;
+
+                (function (f, b, e, v, n, t, s) {
+                    if (f.fbq) return;
+                    n = f.fbq = function () {
+                        n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+                    };
+                    if (!f._fbq) f._fbq = n;
+                    n.push = n;
+                    n.loaded = true;
+                    n.version = '2.0';
+                    n.queue = [];
+                    t = b.createElement(e);
+                    t.async = true;
+                    t.src = v;
+                    s = b.getElementsByTagName(e)[0];
+                    s.parentNode.insertBefore(t, s);
+                })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+
+                window.fbq('init', pixelId);
+            }
+
+            document.querySelectorAll('a.sb-button[href^="https://wa.me/"]').forEach((link) => {
+                link.addEventListener('click', () => {
+                    loadMetaPixel();
+                    window.fbq('track', 'Contact');
+                });
+            });
+        })();
+    </script>
 </body>
 </html>
