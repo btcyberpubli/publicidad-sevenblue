@@ -1911,9 +1911,8 @@
         (() => {
             const pixelId = '1498382425313232';
 
-            function loadMetaPixel() {
-                if (window.fbq) return;
-
+            // 1. Cargar el píxel y disparar ViewContent al cargar la página
+            if (!window.fbq) {
                 (function (f, b, e, v, n, t, s) {
                     if (f.fbq) return;
                     n = f.fbq = function () {
@@ -1932,12 +1931,14 @@
                 })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
 
                 window.fbq('init', pixelId);
+                window.fbq('track', 'ViewContent'); // Se registra la vista de contenido al cargar
             }
 
-            document.querySelectorAll('a.sb-button[href^="https://wa.me/"]').forEach((link) => {
-                link.addEventListener('click', () => {
-                    loadMetaPixel();
-                    window.fbq('track', 'Contact');
+            // 2. Mantener el seguimiento en el botón de WhatsApp (idealmente 'Contact' o 'Lead')
+            document.querySelectorAll('[data-whatsapp-url]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    window.fbq('track', 'Contact'); 
+                    window.open(button.dataset.whatsappUrl, '_blank', 'noopener,noreferrer');
                 });
             });
         })();
